@@ -10,32 +10,18 @@
 </head>
 
 <body>
-    <p id="native-socket-data"></p>
-    <p id="Esp-data"></p>
+    <pre></pre>
 
     <script>
-        let count = 0
-        var socket = io({
+        const pre = document.querySelector('pre');
+
+        const socket = io({
             transports: ['websocket']
         });
 
-        let el;
-        let le;
-
-        setInterval(() => {
-            count++
-            socket.emit('messaged', count)
-
-        }, 1000);
-
-        socket.on('message', (timeString) => {
-            el = document.getElementById('native-socket-data');
-            el.innerHTML = 'Message ' + timeString;
-        });
-
-        socket.on('message2', (timeString) => {
-            le = document.getElementById('Esp-data');
-            le.innerHTML = 'Temp From Esp ----------------- ' + timeString[1]["data"] + "°";
+        socket.on('message', (payload) => {
+            console.log(payload);
+            pre.innerHTML = JSON.stringify(payload);
         });
     </script>
 </body>
